@@ -30,8 +30,7 @@ return new class extends Migration
             $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
             $table->string('manufacturer')->nullable();
             $table->string('price')->nullable();
-            $table->string('trade_price')->nullable();
-
+            $table->string('initial_price')->nullable();
             $table->timestamps();
         });
     }

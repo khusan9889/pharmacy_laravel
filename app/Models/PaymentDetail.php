@@ -14,4 +14,10 @@ class PaymentDetail extends Model
         'purchase_id',
 
     ];
+
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class);
+    }
+    
 }

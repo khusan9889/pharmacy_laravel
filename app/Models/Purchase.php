@@ -14,4 +14,9 @@ class Purchase extends Model
         'total_price',
         'user_id',
     ];
+
+    public function paymentDetail()
+    {
+        return $this->belongsTo(PaymentDetail::class);
+    }
 }

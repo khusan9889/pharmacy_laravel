@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('products_id')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('purchase_id')->nullable()->constrained('purchases')->nullOnDelete();
-            $table->integer('number')->nullable();
+            $table->integer('count')->nullable();
             $table->integer('price')->nullable();
             $table->timestamps();
         });
