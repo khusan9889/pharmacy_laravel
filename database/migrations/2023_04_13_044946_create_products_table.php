@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            // $table->string('vendor_id')->nullable();
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->nullOnDelete();
             $table->string('name')->nullable();
             $table->text('short_description')->nullable();
             $table->string('barcode')->nullable();
-            // $table->string('category')->nullable();
-            // $table->string('removed_date')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained('categories');
+            $table->string('removed_date')->nullable();
             $table->integer('amount')->nullable();
             $table->string('type')->nullable();
             $table->string('received_date')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('package_type')->nullable();
             $table->integer('per_box')->nullable();
             $table->integer('package_amount')->nullable();
-            // $table->string('country_id')->nullable();
+            $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
             $table->string('manufacturer')->nullable();
             $table->string('price')->nullable();
             $table->string('trade_price')->nullable();

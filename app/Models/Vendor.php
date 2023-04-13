@@ -9,5 +9,10 @@ class Vendor extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'name',
+    ];
+
 // public $table_name = 'vendors';
+
 }

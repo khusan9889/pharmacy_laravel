@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payment_details', function (Blueprint $table) {
             $table->id();
             $table->string('payment_method')->nullable();
-            $table->integer('purchase_id')->nullable();
+            $table->foreignId('purchase_id')->nullable()->constrain('purchases')->nullOnDelete();
             $table->timestamps();
         });
     }

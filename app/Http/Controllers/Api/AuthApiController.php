@@ -14,7 +14,7 @@ class AuthApiController extends Controller
 
     public function login(LoginApiRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('username', $request->username)->first();
         if (is_null($user)) {
             return $this->error(['message' => __('auth.failed')], 422);
         }

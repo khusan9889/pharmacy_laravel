@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('products_purchase', function (Blueprint $table) {
             $table->id();
-            $table->integer('products_id')->nullable();
-            $table->integer('purchase_id')->nullable();
+            $table->foreignId('products_id')->nullable()->constrained('products')->nullOnDelete();
+            $table->foreignId('purchase_id')->nullable()->constrained('purchases')->nullOnDelete();
             $table->integer('number')->nullable();
             $table->integer('price')->nullable();
             $table->timestamps();

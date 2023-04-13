@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            // $table->integer('vendor_id')->nullable();
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->nullOnDelete();
             $table->integer('total_price')->nullable();
-            // $table->integer('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
