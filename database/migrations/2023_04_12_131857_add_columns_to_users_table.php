@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('last_name')->nullable();
             $table->string('patronymic')->nullable();
             $table->string('phone_number')->nullable();
-            $table->dropColumn('name');
         });
     }
 
