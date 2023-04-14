@@ -7,8 +7,14 @@ interface ProductServiceInterface
     public function filter();
 
     public function store($request);
+
     public function customStore($request);
-    
+
     public function customUpdate($id, $request);
+
     public function expired($request);
+
+    public function expire($request);
+
+    public function removeById($id);
 }

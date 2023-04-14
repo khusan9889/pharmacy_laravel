@@ -21,27 +21,27 @@ class ProductService implements ProductServiceInterface
 
     public function customStore($request)
     {
-    // Check if a product with the same barcode and expired date already exists
-    $model = Product::where('barcode', $request->barcode)
-        ->where('expired_date', $request->expired_date)
-        ->first();
+        // Check if a product with the same barcode and expired date already exists
+        $model = Product::where('barcode', $request->barcode)
+            ->where('expired_date', $request->expired_date)
+            ->first();
 
-    // If the product already exists, update the amount column
-    if ($model) {
-        $model->amount += $request->amount;
-        $model->save();
-    } else {
-        // Otherwise, create a new product with the validated data
-        $model =  $this->store($request);
-    }
+        // If the product already exists, update the amount column
+        if ($model) {
+            $model->amount += $request->amount;
+            $model->save();
+        } else {
+            // Otherwise, create a new product with the validated data
+            $model =  $this->store($request);
+        }
 
-    // Calculate and update the package_amount column
-    if ($model->per_box != null && $model->per_box > 0) {
-        $model->package_amount = $model->amount / $model->per_box;
-        $model->save();
-    }
+        // Calculate and update the package_amount column
+        if ($model->per_box != null && $model->per_box > 0) {
+            $model->package_amount = $model->amount / $model->per_box;
+            $model->save();
+        }
 
-    return $model;
+        return $model;
     }
 
     public function customUpdate($id, $request)
@@ -64,13 +64,8 @@ class ProductService implements ProductServiceInterface
             ->customPaginate();
     }
 
-    public function remove($request)
+    public function expire($request)
     {
-        // $models = $this->modelClass::where('expired_date', '<=', $request->get('date', date('Y-m-d')))->get();
-        // foreach($models as $item){
-        //     $item->removed_date = date('Y-m-d');
-        //     $item->save();
-        // }
         $this->modelClass::where('expired_date', '<=', $request->get('date', date('Y-m-d')))
             ->update([
                 'removed_date' => date('Y-m-d')
@@ -78,10 +73,6 @@ class ProductService implements ProductServiceInterface
     }
     public function removeById($id)
     {
-        // $this->modelClass::where('id', $id)
-        // ->update([
-        //     'removed_date' => date('Y-m-d')
-        // ]);
         $model = $this->modelClass::where('id', $id)->first();
         $model->removed_date = date('Y-m-d');
         $model->save();

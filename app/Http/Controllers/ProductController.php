@@ -34,8 +34,18 @@ class ProductController extends Controller
         return $this->success();
     }
 
+    public function expire(Request $request, ProductServiceInterface $service)
+    {
+        return $this->success($service->expire($request));
+    }
+
     public function expired(Request $request, ProductServiceInterface $service)
     {
         return $this->success($service->expired($request));
+    }
+
+    public function removeById($id, ProductServiceInterface $service)
+    {
+        return $this->success($service->removeById($id));
     }
 }

@@ -22,10 +22,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('logout', [AuthApiController::class, 'logout']);
 
 
-    Route::group(['prefix'=>'products'], function(){
+    Route::group(['prefix' => 'products'], function () {
         Route::get('', [ProductController::class, 'index']);
         Route::get('expired', [ProductController::class, 'expired']);
         Route::post('', [ProductController::class, 'store']);
+        Route::put('removebyId/{id}', [ProductController::class, 'removeById']);
+        Route::put('expirationId', [ProductController::class, 'expirationId']);
         Route::put('{id}', [ProductController::class, 'update']);
         Route::delete('{id}', [ProductController::class, 'delete']);
     });
