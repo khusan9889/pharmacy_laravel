@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Language;
+use App\Models\Product;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -106,3 +108,4 @@ function paginate($items, $perPage = 15, $page = null, $options = [])
 
     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
 }
+

@@ -21,35 +21,27 @@ class ProductService implements ProductServiceInterface
 
     public function customStore($request)
     {
-        return $this->store(new \Illuminate\Http\Request($request->except(['removed_date'])));
-        // return $this->store($request);
+    // Check if a product with the same barcode and expired date already exists
+    $model = Product::where('barcode', $request->barcode)
+        ->where('expired_date', $request->expired_date)
+        ->first();
+
+    // If the product already exists, update the amount column
+    if ($model) {
+        $model->amount += $request->amount;
+        $model->save();
+    } else {
+        // Otherwise, create a new product with the validated data
+        $model =  $this->store($request);
     }
 
-    public function store($request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'barcode' => 'required|string|max:255',
-            'expired_date' => 'required|date',
-            'amount' => 'required|integer|min:1'
-        ]);
+    // Calculate and update the package_amount column
+    if ($model->per_box != null && $model->per_box > 0) {
+        $model->package_amount = $model->amount / $model->per_box;
+        $model->save();
+    }
 
-        // Check if a product with the same barcode and expired date already exists
-        $existingProduct = Product::where('barcode', $validatedData['barcode'])
-                                ->where('expired_date', $validatedData['expired_date'])
-                                ->first();
-
-        // If the product already exists, update the amount column
-        if ($existingProduct) {
-            $existingProduct->amount += $validatedData['amount'];
-            $existingProduct->save();
-        } else {
-            // Otherwise, create a new product with the validated data
-            Product::create($validatedData);
-        }
-
-        return redirect('/products')->with('success', 'Product has been added.');
+    return $model;
     }
 
     public function customUpdate($id, $request)
@@ -60,8 +52,8 @@ class ProductService implements ProductServiceInterface
     public function expired($request)
     {
         return $this->modelClass::where('expired_date', '<=', $request->get('date', date('Y-m-d')))
-        ->sort()
-        ->customPaginate();
+            ->sort()
+            ->customPaginate();
     }
 
     public function remove($request)
@@ -72,10 +64,9 @@ class ProductService implements ProductServiceInterface
         //     $item->save();
         // }
         $this->modelClass::where('expired_date', '<=', $request->get('date', date('Y-m-d')))
-        ->update([
-            'removed_date' => date('Y-m-d')
-        ]);
-
+            ->update([
+                'removed_date' => date('Y-m-d')
+            ]);
     }
     public function removeById($id)
     {
@@ -83,10 +74,8 @@ class ProductService implements ProductServiceInterface
         // ->update([
         //     'removed_date' => date('Y-m-d')
         // ]);
-        $model = $this->modelClass::where('id',$id)->first();     
+        $model = $this->modelClass::where('id', $id)->first();
         $model->removed_date = date('Y-m-d');
         $model->save();
-   
     }
-
 }
