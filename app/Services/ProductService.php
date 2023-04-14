@@ -18,7 +18,7 @@ class ProductService implements ProductServiceInterface
             ->sort()
             ->customPaginate();
     }
-
+    
     public function customStore($request)
     {
         // Check if a product with the same barcode and expired date already exists

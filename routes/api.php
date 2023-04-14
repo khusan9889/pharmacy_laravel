@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('expirationId', [ProductController::class, 'expirationId']);
         Route::put('{id}', [ProductController::class, 'update']);
         Route::delete('{id}', [ProductController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'reference'], function () {
+        Route::get('countries', [ReferenceController::class, 'index']);
     });
 });
