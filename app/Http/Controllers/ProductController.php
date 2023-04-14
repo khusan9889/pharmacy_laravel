@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Services\ProductService;
@@ -22,7 +23,7 @@ class ProductController extends Controller
         return $this->success($service->customStore($request));
     }
 
-    public function update($id, Request $request, ProductServiceInterface $service)
+    public function update($id, UpdateProductRequest $request, ProductServiceInterface $service)
     {
         return $this->success($service->customUpdate($id, $request));
     }

@@ -46,7 +46,15 @@ class ProductService implements ProductServiceInterface
 
     public function customUpdate($id, $request)
     {
-        return $this->update($id, $request);
+        $model = Product::where('barcode', $request->barcode)
+            ->where('expired_date', $request->expired_date)
+            ->first();
+
+        if ($model) {
+            return $this->update($id, $request);
+        } else {
+            return ['message' => 'Product not found'];
+        }
     }
 
     public function expired($request)
