@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Purchase extends Model
 {
@@ -19,4 +20,15 @@ class Purchase extends Model
     {
         return $this->belongsTo(PaymentDetail::class);
     }
+
+    public function products(){
+        return $this->belongsToMany(Product::class, ProductPurchase::class);
+    }
+
+    public function product_purchases(): HasMany
+    {
+        return $this->hasMany(ProductPurchase::class);
+    }
 }
+
+

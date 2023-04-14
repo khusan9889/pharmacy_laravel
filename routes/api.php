@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,13 @@ Route::post('login', [AuthApiController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('profile', [AuthApiController::class, 'profile']);
     Route::delete('logout', [AuthApiController::class, 'logout']);
+
+
+    Route::group(['prefix'=>'products'], function(){
+        Route::get('', [ProductController::class, 'index']);
+        Route::get('expired', [ProductController::class, 'expired']);
+        Route::post('', [ProductController::class, 'store']);
+        Route::put('{id}', [ProductController::class, 'update']);
+        Route::delete('{id}', [ProductController::class, 'delete']);
+    });
 });

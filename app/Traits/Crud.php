@@ -8,7 +8,7 @@ trait Crud
     {
         $model = new $this->modelClass;
         $model = $this->modelClass::create($request->only($model->fillable));
-        $model = $this->attachTranslates($model, $request);
+        // $model = $this->attachTranslates($model, $request);
         $this->attachFiles($model, $request);
         return $model;
     }
@@ -39,7 +39,7 @@ trait Crud
     {
         $model = $this->modelClass::find($id);
         $model->update($request->only($model->fillable));
-        $model = $this->attachTranslates($model, $request);
+        // $model = $this->attachTranslates($model, $request);
         $this->attachFiles($model, $request);
         return $model;
     }
