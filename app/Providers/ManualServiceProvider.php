@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\CategoryService;
+use App\Services\Contracts\CategoryServiceInterface;
 use App\Services\Contracts\ExampleServiceInterface;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Services\Contracts\ReferenceServiceInterface;
@@ -22,6 +24,7 @@ class ManualServiceProvider extends ServiceProvider
         // $this->app->singleton(ExampleServiceInterface::class, ExampleService::class);
         $this->app->singleton(ProductServiceInterface::class, ProductService::class);
         $this->app->singleton(ReferenceServiceInterface::class, ReferenceService::class);
+        $this->app->singleton(CategoryServiceInterface::class, CategoryService::class);
     }
 
     /**
