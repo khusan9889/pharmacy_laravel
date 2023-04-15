@@ -34,6 +34,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => 'reference'], function () {
-        Route::get('countries', [ReferenceController::class, 'index']);
+        Route::get('countries', [ReferenceController::class, 'country']);
     });
 });

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ReferenceController extends Controller
 {
     use ApiResponse;
-    public function index(ReferenceServiceInterface $service)
+    public function country(ReferenceServiceInterface $service)
     {
         return $this->success($service->filter());
     }

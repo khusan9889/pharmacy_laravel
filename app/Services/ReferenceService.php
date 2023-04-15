@@ -17,14 +17,4 @@ class ReferenceService implements ReferenceServiceInterface
             ->sort()
             ->get();
     }
-
-    // public function customStore($request)
-    // {
-    //     return $this->store($request);
-    // }
-
-    // public function customUpdate($id, $request)
-    // {
-    //     return $this->update($id, $request);
-    // }
 }
