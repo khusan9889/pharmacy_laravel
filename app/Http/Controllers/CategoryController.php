@@ -13,5 +13,11 @@ class CategoryController extends Controller
     {
         return $this->success($service->filter());
     }
+
+    public function store(Request $request, CategoryServiceInterface $service)
+    {
+        return $this->success($service->customStore($request));
+    }
+    
 }
 

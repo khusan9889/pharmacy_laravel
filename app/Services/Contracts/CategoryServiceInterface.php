@@ -6,7 +6,7 @@ interface CategoryServiceInterface
 {
     public function filter();
 
-    // public function customStore($request);
+    public function customStore($request);
 
     // public function customUpdate($id, $request);
 }

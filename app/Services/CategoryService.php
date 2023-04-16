@@ -19,8 +19,17 @@ class CategoryService implements CategoryServiceInterface
         return $this->modelClass::where(function($query) {
                 $query->where('name', 'LIKE', '%' . request('like') . '%');
             })
-
             ->get();
     }
     
+    public function customStore($request)
+    {
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->save();
+        
+        return $category;
+    }
+
 }
+
