@@ -34,11 +34,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-
-
-// $table->string('username');
-//             $table->string('password');
-//             $table->string('first_name');
-//             $table->string('last_name');
-//             $table->string('patronymic');
-//             $table->string('phone_number');

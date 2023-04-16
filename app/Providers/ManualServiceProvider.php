@@ -7,9 +7,11 @@ use App\Services\Contracts\CategoryServiceInterface;
 use App\Services\Contracts\ExampleServiceInterface;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Services\Contracts\ReferenceServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
 use App\Services\ProductService;
 use App\Services\ExampleService;
 use App\Services\ReferenceService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class ManualServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class ManualServiceProvider extends ServiceProvider
         $this->app->singleton(ProductServiceInterface::class, ProductService::class);
         $this->app->singleton(ReferenceServiceInterface::class, ReferenceService::class);
         $this->app->singleton(CategoryServiceInterface::class, CategoryService::class);
+        $this->app->singleton(UserServiceInterface::class, UserService::class);
     }
 
     /**

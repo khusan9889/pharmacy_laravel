@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
-use App\Models\Example;
 use App\Services\Contracts\CategoryServiceInterface;
-use App\Services\Contracts\ExampleServiceInterface;
 use App\Traits\Crud;
 
 class CategoryService implements CategoryServiceInterface
@@ -17,9 +15,9 @@ class CategoryService implements CategoryServiceInterface
     public function filter()
     {
         $order = request('order', 'desc'); // get the value of the "order" query parameter or use "desc" as default
-        return $this->modelClass::where(function($query) {
-                $query->where('name', 'LIKE', '%' . request('like') . '%');
-            })
+        return $this->modelClass::where(function ($query) {
+            $query->where('name', 'LIKE', '%' . request('like') . '%');
+        })
             ->orderBy('id', $order)
             ->get();
     }
@@ -28,7 +26,7 @@ class CategoryService implements CategoryServiceInterface
     {
         return Category::find($categoryId);
     }
-    
+
     public function customStore($request)
     {
         $category = new Category();
@@ -51,12 +49,4 @@ class CategoryService implements CategoryServiceInterface
 
         return $category;
     }
-
-    public function remove($id)
-    {
-        $model = $this->modelClass::where('id', $id)->first();
-        $model->save();
-    }
-
 }
-

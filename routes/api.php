@@ -5,7 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReferenceController;
-
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +45,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('{id}', [CategoryController::class, 'getById']);
         Route::put('{id}', [CategoryController::class, 'update']);
         Route::delete('{id}', [CategoryController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'users'], function (){
+        Route::get('', [UserController::class, 'index']);
+        Route::post('', [UserController::class, 'store']);
+        Route::get('{id}', [UserController::class, 'getById']);
+        Route::put('{id}', [UserController::class, 'update']);
+        Route::delete('{id}', [UserController::class, 'delete']);
+    });
+
+    Route::group(['prefix'=>'purchases'], function() {
+        Route::get('', [PurchaseController::class, 'index']);
     });
 
 });
