@@ -6,13 +6,12 @@ use App\Services\Contracts\CategoryServiceInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class Categorycontroller extends Controller
+class CategoryController extends Controller
 {
     use ApiResponse;
-    public function index(CategoryServiceInterface $service)
+    public function category(CategoryServiceInterface $service)
     {
         return $this->success($service->filter());
     }
-
-    // public function store()
 }
+

@@ -37,3 +37,4 @@ class ManualServiceProvider extends ServiceProvider
         //
     }
 }
+
