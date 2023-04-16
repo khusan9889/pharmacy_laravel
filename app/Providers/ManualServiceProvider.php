@@ -4,13 +4,13 @@ namespace App\Providers;
 
 use App\Services\CategoryService;
 use App\Services\Contracts\CategoryServiceInterface;
-use App\Services\Contracts\ExampleServiceInterface;
+use App\Services\Contracts\ProductPurchaseServiceInterface;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Services\Contracts\PurchaseServiceInterface;
 use App\Services\Contracts\ReferenceServiceInterface;
 use App\Services\Contracts\UserServiceInterface;
 use App\Services\ProductService;
-use App\Services\ExampleService;
+use App\Services\ProductPurchaseService;
 use App\Services\PurchaseService;
 use App\Services\ReferenceService;
 use App\Services\UserService;
@@ -31,6 +31,7 @@ class ManualServiceProvider extends ServiceProvider
         $this->app->singleton(CategoryServiceInterface::class, CategoryService::class);
         $this->app->singleton(UserServiceInterface::class, UserService::class);
         $this->app->singleton(PurchaseServiceInterface::class, PurchaseService::class);
+        $this->app->singleton(ProductPurchaseServiceInterface::class, ProductPurchaseService::class);
     }
 
     /**

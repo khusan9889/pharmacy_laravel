@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products_purchase', function (Blueprint $table) {
+        Schema::create('product_purchase', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->nullable()->constrained('products')->nullOnDelete();
+            $table->foreignId('product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('purchase_id')->nullable()->constrained('purchases')->nullOnDelete();
             $table->integer('count')->nullable();
             $table->integer('price')->nullable();
