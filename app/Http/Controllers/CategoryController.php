@@ -14,10 +14,26 @@ class CategoryController extends Controller
         return $this->success($service->filter());
     }
 
+    
+
     public function store(Request $request, CategoryServiceInterface $service)
     {
         return $this->success($service->customStore($request));
     }
-    
+
+
+    public function getById($id, CategoryServiceInterface $service)
+    {
+        $category = $service->getById($id);
+
+        if (!$category) {
+            return $this->error("Category not found", 404);
+        }
+
+        return $this->success($category);
+    }
+
+
+
 }
 

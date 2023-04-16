@@ -27,8 +27,13 @@ class CategoryService implements CategoryServiceInterface
         $category = new Category();
         $category->name = $request->input('name');
         $category->save();
-        
+
         return $category;
+    }
+
+    public function getById($categoryId)
+    {
+        return Category::find($categoryId);
     }
 
 }

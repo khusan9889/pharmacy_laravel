@@ -8,6 +8,8 @@ interface CategoryServiceInterface
 
     public function customStore($request);
 
+    public function getById($id);
+
     // public function customUpdate($id, $request);
 }
 
