@@ -16,10 +16,17 @@ class CategoryService implements CategoryServiceInterface
 
     public function filter()
     {
+        $order = request('order', 'desc'); // get the value of the "order" query parameter or use "desc" as default
         return $this->modelClass::where(function($query) {
                 $query->where('name', 'LIKE', '%' . request('like') . '%');
             })
+            ->orderBy('id', $order)
             ->get();
+    }
+
+    public function getById($categoryId)
+    {
+        return Category::find($categoryId);
     }
     
     public function customStore($request)
@@ -31,9 +38,24 @@ class CategoryService implements CategoryServiceInterface
         return $category;
     }
 
-    public function getById($categoryId)
+    public function customUpdate($id, $request)
     {
-        return Category::find($categoryId);
+        $category = Category::find($id);
+
+        if (!$category) {
+            return null;
+        }
+
+        $category->name = $request->input('name');
+        $category->save();
+
+        return $category;
+    }
+
+    public function remove($id)
+    {
+        $model = $this->modelClass::where('id', $id)->first();
+        $model->save();
     }
 
 }

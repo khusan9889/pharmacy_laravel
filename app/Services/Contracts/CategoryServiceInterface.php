@@ -10,6 +10,8 @@ interface CategoryServiceInterface
 
     public function getById($id);
 
-    // public function customUpdate($id, $request);
+    public function customUpdate($id, $request);
+
+    public function remove($id);
 }
 
