@@ -46,6 +46,11 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
 
             $product = Product::findOrFail($productId);
 
+            //check if amount of products is bigger than we want to purchase
+            if ($product->amount < $quantity) {
+                throw new \Exception('Not enough amount of products: ' . $product->name);
+            }
+
             $formattedProductQuantities[] = [
                 'product_id' => $productId,
                 'count' => $quantity,
@@ -53,6 +58,12 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
             ];
 
             $product->amount -= $quantity;
+
+            // Calculate the package amount if the product comes in a package
+            if ($product->per_box != null && $product->per_box > 0) {
+                $product->package_amount = (int)($product->amount / $product->per_box);
+            }
+
             $product->save();
 
             $totalPrice += $product->price * $quantity;
