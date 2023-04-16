@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\UserController;
@@ -57,6 +58,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix'=>'purchases'], function() {
         Route::get('', [PurchaseController::class, 'index']);
+    });
+
+    Route::group(['prefix'=>'product-purchase'], function() {
+        Route::post('', [ProductPurchaseController::class, 'purchase']);
     });
 
 });
