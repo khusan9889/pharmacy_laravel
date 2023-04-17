@@ -26,6 +26,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
 
     public function customStore($request)
     {
+
         // Get the array of product IDs and amounts from the request
         $productQuantities = $request->get('products');
 
@@ -73,6 +74,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
         $purchase = new Purchase();
 
         $purchase->total_price = $totalPrice; // set the total price of the purchase
+        $purchase->user_id = auth()->user()->id; // set the user ID of the purchase
         
         $purchase->save();
 
