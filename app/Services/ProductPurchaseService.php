@@ -73,6 +73,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
         $purchase = new Purchase();
 
         $purchase->total_price = $totalPrice; // set the total price of the purchase
+        
         $purchase->save();
 
         // Attach the products to the product purchase

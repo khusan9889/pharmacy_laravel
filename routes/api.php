@@ -7,7 +7,9 @@ use App\Http\Controllers\ProductPurchaseController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
+use App\Services\Contracts\StatisticsServiceInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('{id}', [CategoryController::class, 'delete']);
     });
 
-    Route::group(['prefix' => 'users'], function (){
+    Route::group(['prefix' => 'users'], function () {
         Route::get('', [UserController::class, 'index']);
         Route::post('', [UserController::class, 'store']);
         Route::get('{id}', [UserController::class, 'getById']);
@@ -57,12 +59,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('{id}', [UserController::class, 'delete']);
     });
 
-    Route::group(['prefix'=>'purchases'], function() {
+    Route::group(['prefix' => 'purchases'], function () {
         Route::get('', [PurchaseController::class, 'index']);
     });
 
-    Route::group(['prefix'=>'product-purchase'], function() {
+    Route::group(['prefix' => 'product-purchase'], function () {
         Route::post('', [ProductPurchaseController::class, 'purchase']);
     });
 
+    Route::group(['prefix' => 'statistics'], function () {
+        Route::get('', [StatisticsController::class, 'by_interval']);
+        Route::get('common-products', [StatisticsController::class, 'common_products']);
+        Route::get('product/{id}', [StatisticsController::class, 'product_stats']);
+    });
 });

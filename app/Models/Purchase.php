@@ -23,7 +23,7 @@ class Purchase extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class, ProductPurchase::class);
+        return $this->belongsToMany(Product::class, ProductPurchase::class)->withTimestamps();
     }
 
     public function product_purchases(): HasMany

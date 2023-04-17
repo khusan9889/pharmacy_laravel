@@ -16,7 +16,7 @@ class ProductPurchase extends Model
     public $fillable = [
         'product_id',
         'purchase_id',
-        'number',
+        'count',
         'price',
     ];
 
@@ -27,6 +27,6 @@ class ProductPurchase extends Model
 
     public function purchase(): BelongsTo
     {
-        return $this->belongsTo(Purchase::class);
+        return $this->belongsTo(Purchase::class)->withTimestamps();
     }
 }
