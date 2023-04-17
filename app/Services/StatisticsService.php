@@ -51,6 +51,7 @@ class StatisticsService implements StatisticsServiceInterface
     {
         $query = ProductPurchase::query();
         $query = $query->where('product_id', $productId);
+        $query->whereBetween2('created_at','date');
 
         $purchasesCount = $query->count();
 
