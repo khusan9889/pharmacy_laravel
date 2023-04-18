@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('byuser/{id?}', [StatisticsController::class, 'users_stats']);
         Route::get('bycategory/{id?}', [StatisticsController::class, 'bycat']);
         Route::get('extended/products/{id?}' ,[StatisticsController::class, 'extended_prod']);
+        Route::get('extended/users/{id?}', [StatisticsController::class, 'extended_user']);
     });
 
 });

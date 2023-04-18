@@ -40,6 +40,11 @@ class StatisticsController extends Controller
     {
         return $this->success($service->extended_products($request, $id));
     }
+
+    public function extended_user(Request $request, StatisticsServiceInterface $service, $id = null)
+    {
+        return $this->success($service->extended_users($request, $id));
+    }
 }
 
 

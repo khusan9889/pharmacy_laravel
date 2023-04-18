@@ -7,6 +7,7 @@ use App\Services\Contracts\StatisticsServiceInterface;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
 use App\Models\Purchase;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class StatisticsService implements StatisticsServiceInterface
@@ -33,7 +34,6 @@ class StatisticsService implements StatisticsServiceInterface
 
         return $results;
     }
-
 
     public function product_stats($productId)
     {
@@ -97,6 +97,21 @@ class StatisticsService implements StatisticsServiceInterface
 
         return $query->customPaginate();
     }
+
+    public function extended_users($request, $userId)
+    {
+        $query = User::with(['purchase'])
+            ->whereBetween2('created_at', 'date')
+            ->sort();
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query->customPaginate();
+    }
+
+
 
 }
 

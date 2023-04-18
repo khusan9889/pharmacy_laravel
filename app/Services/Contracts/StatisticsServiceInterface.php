@@ -17,5 +17,7 @@ interface StatisticsServiceInterface
     public function category($id);
 
     public function extended_products($request, $id);
+
+    public function extended_users($request, $id);
    
 }
