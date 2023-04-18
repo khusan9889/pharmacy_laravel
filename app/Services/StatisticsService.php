@@ -13,18 +13,6 @@ class StatisticsService implements StatisticsServiceInterface
 {
     use Crud;
 
-    // public $modelClass = Example::class;
-
-    // public function filter()
-    // {
-    //     return $this->modelClass::whereLike('name')
-    //         ->whereEqual('key')
-    //         ->whereBetween2('created_at')
-    //         ->whereBetween2('updated_at')
-    //         ->sort()
-    //         ->customPaginate();
-    // }
-
     public function interval_of_time($request)
     {
         return Purchase::with(['product_purchases.product'])
@@ -93,6 +81,21 @@ class StatisticsService implements StatisticsServiceInterface
 
         $query->groupBy('products.category_id', 'categories.name');
         $results = $query->get();
+
+        return $results;
+    }
+
+    public function extended_products($request)
+    {
+        $query = ProductPurchase::query();
+
+        $results = $query->join('products', 'product_purchases.product_id', '=', 'products.id')
+            ->join('users', 'product_purchases.user_id', '=', 'users.id')
+            ->groupBy('product_purchases.product_id')
+            ->select('product_purchases.product_id', 'products.name', 'users.name as user_name', DB::raw('SUM(product_purchases.count) as total_count'))
+            ->whereBetween('product_purchases.created_at', $request->get('date'))
+            ->orderBy($request->get('orderBy', 'total_count'), $request->get('order', 'desc'))
+            ->get();
 
         return $results;
     }

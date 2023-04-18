@@ -35,4 +35,9 @@ class StatisticsController extends Controller
     {
         return $this->success($service->category($id));
     }
+
+    public function extended_prod(Request $request ,StatisticsServiceInterface $service)
+    {
+        return $this->success($service->extended_products($request));
+    }
 }
