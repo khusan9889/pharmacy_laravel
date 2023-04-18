@@ -73,10 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('product/{id}', [StatisticsController::class, 'product_stats']);
         Route::get('byuser/{id?}', [StatisticsController::class, 'users_stats']);
         Route::get('bycategory/{id?}', [StatisticsController::class, 'bycat']);
-        Route::get('extended/products' ,[StatisticsController::class, 'extended_prod']);
+        Route::get('extended/products/{id?}' ,[StatisticsController::class, 'extended_prod']);
     });
 
-    // Route::group(['prefix' => 'extended'], function () {
-    //     Route::get('extended/products' ,[StatisticsController::class, 'products']);
-    // });
 });

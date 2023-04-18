@@ -11,7 +11,7 @@ class ProductPurchase extends Model
 {
     use HasFactory, Scopes;
 
-    public $table = 'product_purchase' ;
+    public $table = 'product_purchase';
 
     public $fillable = [
         'product_id',
@@ -27,6 +27,6 @@ class ProductPurchase extends Model
 
     public function purchase(): BelongsTo
     {
-        return $this->belongsTo(Purchase::class)->withTimestamps();
+        return $this->belongsTo(Purchase::class);
     }
 }

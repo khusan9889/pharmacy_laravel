@@ -85,19 +85,19 @@ class StatisticsService implements StatisticsServiceInterface
         return $results;
     }
 
-    public function extended_products($request)
+    public function extended_products($request, $productId)
     {
-        $query = ProductPurchase::query();
+        $query = ProductPurchase::with(['purchase'])
+            ->whereBetween2('created_at', 'date')
+            ->sort();
 
-        $results = $query->join('products', 'product_purchases.product_id', '=', 'products.id')
-            ->join('users', 'product_purchases.user_id', '=', 'users.id')
-            ->groupBy('product_purchases.product_id')
-            ->select('product_purchases.product_id', 'products.name', 'users.name as user_name', DB::raw('SUM(product_purchases.count) as total_count'))
-            ->whereBetween('product_purchases.created_at', $request->get('date'))
-            ->orderBy($request->get('orderBy', 'total_count'), $request->get('order', 'desc'))
-            ->get();
+        if ($productId) {
+            $query->where('product_id', $productId);
+        }
 
-        return $results;
+        return $query->customPaginate();
     }
 
 }
+
+
