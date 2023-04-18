@@ -15,7 +15,7 @@ class UserService implements UserServiceInterface
     public function filter()
     {
         $order = request('order', 'desc');
-        return $this->modelClass::where(function ($query){
+        return $this->modelClass::where(function ($query) {
             $query->where('username', 'LIKE', '%' . request('like') . '%');
         })
             ->orderBy('id', $order)
@@ -36,7 +36,7 @@ class UserService implements UserServiceInterface
         $user->vendor_id = $request->input('vendor_id');
         $user->role_id = $request->input('role_id');
         $user->username = $request->input('username');
-        $user->password = $request->input('password');
+        $user->password = bcrypt($request->input('password'));
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->patronymic = $request->input('patronymic');
@@ -56,10 +56,4 @@ class UserService implements UserServiceInterface
         $model = $this->modelClass::where('id', $id)->first();
         $model->save();
     }
-
-
-
 }
-
-
-

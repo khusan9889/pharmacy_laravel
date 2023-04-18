@@ -23,7 +23,16 @@ class StatisticsController extends Controller
 
     public function product_stats($id, StatisticsServiceInterface $service)
     {
-        // $productId = $request->get('productId');
         return $this->success($service->product_stats($id));
+    }
+
+    public function users_stats(StatisticsServiceInterface $service, $id = null)
+    {
+        return $this->success($service->by_user($id));
+    }
+
+    public function bycat(StatisticsServiceInterface $service, $id = null)
+    {
+        return $this->success($service->category($id));
     }
 }

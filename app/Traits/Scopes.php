@@ -78,10 +78,10 @@ trait Scopes
         $start = $requestField . '_start';
         $end = $requestField . '_end';
         if ($request->$start) {
-            $query->whereDate($tableField, '>=', $request->$start);
+            $query->whereDate($this->getTable() . '.' . $tableField, '>=', $request->$start);
         }
         if ($request->$end) {
-            $query->whereDate($tableField, '<=', $request->$end);
+            $query->whereDate($this->getTable() . '.' . $tableField, '<=', $request->$end);
         }
     }
 

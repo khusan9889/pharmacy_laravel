@@ -12,5 +12,9 @@ interface StatisticsServiceInterface
 
     public function product_stats($request);
 
+    public function by_user($id);
+
+    public function category($id);
+
    
 }
