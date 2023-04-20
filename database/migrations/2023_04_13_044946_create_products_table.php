@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('barcode')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->string('removed_date')->nullable();
-            $table->integer('amount')->nullable();
+            $table->integer('count')->nullable();
             $table->string('type')->nullable();
             $table->string('received_date')->nullable();
             $table->string('manufactured_date')->nullable();
             $table->string('expired_date')->nullable();
             $table->string('package_type')->nullable();
             $table->integer('per_box')->nullable();
-            $table->integer('package_amount')->nullable();
+            $table->integer('package_count')->nullable();
             $table->foreignId('country_id')->nullable()->constrained('countries')->nullOnDelete();
             $table->string('manufacturer')->nullable();
             $table->string('price')->nullable();
@@ -43,3 +43,4 @@ return new class extends Migration
         Schema::dropIfExists('products');
     }
 };
+

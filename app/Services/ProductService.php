@@ -28,7 +28,7 @@ class ProductService implements ProductServiceInterface
 
         // If the product already exists, update the amount column
         if ($model) {
-            $model->amount += $request->amount;
+            $model->count += $request->count;
             $model->save();
         } else {
             // Otherwise, create a new product with the validated data
@@ -37,7 +37,7 @@ class ProductService implements ProductServiceInterface
 
         // Calculate and update the package_amount column
         if ($model->per_box != null && $model->per_box > 0) {
-            $model->package_amount = $model->amount / $model->per_box;
+            $model->package_count = $model->count / $model->per_box;
             $model->save();
         }
 

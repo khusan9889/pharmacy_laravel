@@ -136,6 +136,9 @@ class StatisticsService implements StatisticsServiceInterface
         return $query->customPaginate();
     }
 
+
+    
+
 }
 
 
