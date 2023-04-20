@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\ProductPurchase;
 use App\Services\Contracts\StatisticsServiceInterface;
 use App\Traits\Crud;
@@ -98,20 +99,42 @@ class StatisticsService implements StatisticsServiceInterface
         return $query->customPaginate();
     }
 
-    public function extended_users($request, $userId)
+    public function extended_users($request, $userId = null)
     {
-        $query = User::with(['purchase'])
+        $query = User::with(['purchases'])
             ->whereBetween2('created_at', 'date')
             ->sort();
 
         if ($userId) {
-            $query->where('user_id', $userId);
+            $query->where('id', $userId);
         }
 
         return $query->customPaginate();
     }
 
+    public function extended_cat($request, $categoryId = null)
+    {
+        $query = Category::withCount(['products' => function($query) use($request){
+            $query->whereIn('id', function($query) use($request){
+                $query->select('product_id')
+                    ->from('product_purchase')
+                    ->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            });
+        }]);
 
+        if ($categoryId) {
+            $query->where('id', $categoryId);
+        }
+
+        // Determine the order to sort by
+        $sortOrder = $request->sort_order === 'asc' ? 'asc' : 'desc';
+        $sortBy = $request->sort_by === 'purchase_count' ? 'products_count' : 'name';
+
+        // Sort the results by the specified column and order
+        $query->orderBy($sortBy, $sortOrder);
+
+        return $query->customPaginate();
+    }
 
 }
 

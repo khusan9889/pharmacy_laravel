@@ -53,3 +53,4 @@ class Product extends Model
         return $this->hasMany(ProductPurchase::class);
     }
 }
+

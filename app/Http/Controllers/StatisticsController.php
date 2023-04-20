@@ -45,6 +45,11 @@ class StatisticsController extends Controller
     {
         return $this->success($service->extended_users($request, $id));
     }
+
+    public function extended_categories(Request $request, StatisticsServiceInterface $service, $id = null)
+    {
+        return $this->success($service->extended_cat($request, $id));
+    }
 }
 
 
