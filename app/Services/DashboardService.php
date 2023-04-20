@@ -2,33 +2,19 @@
 
 namespace App\Services;
 
-use App\Models\Example;
+use App\Models\Product;
 use App\Services\Contracts\DashboardServiceInterface;
 use App\Traits\Crud;
 
-class ExampleService implements DashboardServiceInterface
+class DashboardService implements DashboardServiceInterface
 {
     use Crud;
-
-    public $modelClass = Example::class;
-
-    public function filter()
+    public function dash($request)
     {
-        return $this->modelClass::whereLike('name')
-            ->whereEqual('key')
-            ->whereBetween2('created_at')
-            ->whereBetween2('updated_at')
-            ->sort()
-            ->customPaginate();
+        $count = Product::count();
+        return $count;
     }
 
-    public function customStore($request)
-    {
-        return $this->store($request);
-    }
 
-    public function customUpdate($id, $request)
-    {
-        return $this->update($id, $request);
-    }
 }
+   

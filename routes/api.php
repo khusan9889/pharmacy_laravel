@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPurchaseController;
 use App\Http\Controllers\PurchaseController;
@@ -78,6 +79,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('extended/categories/{id?}', [StatisticsController::class, 'extended_categories']);
     });
 
-    
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('' , [DashboardController::class, 'dashboard']);
+    });
 
 });

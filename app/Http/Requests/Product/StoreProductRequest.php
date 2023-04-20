@@ -25,7 +25,7 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'barcode' => 'required|string|max:255',
             'expired_date' => 'required|date',
-            'amount' => 'required|integer|min:1'
+            'count' => 'required|integer|min:1'
         ];
     }
 }
