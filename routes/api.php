@@ -78,4 +78,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('extended/categories/{id?}', [StatisticsController::class, 'extended_categories']);
     });
 
+    
+
 });
