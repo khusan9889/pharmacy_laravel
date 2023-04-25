@@ -29,8 +29,8 @@ class DashboardService implements DashboardServiceInterface
 
     public function dash_time($request)
     {
-        $endDate = $request->get('end_date', date('Y-m-d'));
-        $startDate = $request->get('start_date', date('Y-m-d', strtotime('-7 days', strtotime($endDate))));
+        $endDate = $request->get('date_end', date('Y-m-d'));
+        $startDate = $request->get('date_start', date('Y-m-d', strtotime('-7 days', strtotime($endDate))));
 
         $purchases = Purchase::whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('date(created_at) as date, count(*) as count, sum(total_price) as sum')
