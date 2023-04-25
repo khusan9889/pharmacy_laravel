@@ -16,4 +16,10 @@ class DashboardController extends Controller
         return $this->success($data);
     }
 
+    public function dash_time(Request $request, DashboardServiceInterface $service)
+    {
+        $data = $service->dash_time($request);
+        return $this->success($data);
+    }
+
 }
