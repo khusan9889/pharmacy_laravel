@@ -6,5 +6,3 @@ interface DashboardServiceInterface
 {
     public function dash($request);
 }
-
-

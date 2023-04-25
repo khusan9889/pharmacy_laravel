@@ -12,8 +12,8 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request, DashboardServiceInterface $service)
     {
-        $count = $service->dash($request);
-        return $this->success(['stock_products' => $count]);
+        $data = $service->dash($request);
+        return $this->success($data);
     }
 
 }

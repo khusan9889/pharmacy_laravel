@@ -23,7 +23,7 @@ class Product extends Model
         'expired_date',
         'removed_date',
         'received_date',
-        'amount',
+        'count',
         'package_type',
         'per_box',
         'package_amount',
