@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('sale_id')->nullable()->constrained('sales')->nullOnDelete();
             $table->integer('count')->nullable();
             $table->double('price')->nullable();
+            $table->double('paid_price')->nullable();
             $table->timestamps();
         });
     }

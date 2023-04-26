@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Services\Contracts\DashboardServiceInterface;
 use App\Traits\Crud;
 use App\Models\Purchase;
+use App\Models\Sale;
 
 class DashboardService implements DashboardServiceInterface
 {
@@ -16,7 +17,7 @@ class DashboardService implements DashboardServiceInterface
         
         $productCount = Product::count();
 
-        $totalSales = Purchase::sum('total_price');
+        $totalSales = Sale::sum('total_price');
 
         $expiredProductsCount = Product::where('expired_date', '<=', $currentDate)->count();
 
@@ -32,7 +33,7 @@ class DashboardService implements DashboardServiceInterface
         $endDate = $request->get('date_end', date('Y-m-d'));
         $startDate = $request->get('date_start', date('Y-m-d', strtotime('-7 days', strtotime($endDate))));
 
-        $purchases = Purchase::whereBetween('created_at', [$startDate, $endDate])
+        $sales = Sale::whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('date(created_at) as date, count(*) as count, sum(total_price) as sum')
             ->groupBy('date')
             ->get();
@@ -42,16 +43,16 @@ class DashboardService implements DashboardServiceInterface
         while ($currentDate <= $endDate) {
             $count = 0;
             $sum = 0;
-            foreach ($purchases as $purchase) {
-                if ($purchase->date == $currentDate) {
-                    $count = $purchase->count;
-                    $sum = $purchase->sum;
+            foreach ($sales as $sale) {
+                if ($sale->date == $currentDate) {
+                    $count = $sale->count;
+                    $sum = $sale->sum;
                     break;
                 }
             }
             $result[] = [
                 'date' => $currentDate,
-                'purchase' => $count,
+                'sale' => $count,
                 'sum' => $sum
             ];
             $currentDate = date('Y-m-d', strtotime('+1 day', strtotime($currentDate)));

@@ -4,13 +4,12 @@ use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductPurchaseController;
-use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ProductSaleController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
-use App\Services\Contracts\StatisticsServiceInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,12 +59,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('{id}', [UserController::class, 'delete']);
     });
 
-    Route::group(['prefix' => 'purchases'], function () {
-        Route::get('', [PurchaseController::class, 'index']);
+    Route::group(['prefix' => 'sales'], function () {
+        Route::get('', [SaleController::class, 'index']);
     });
 
-    Route::group(['prefix' => 'product-purchase'], function () {
-        Route::post('', [ProductPurchaseController::class, 'purchase']);
+    Route::group(['prefix' => 'product-sale'], function () {
+        Route::post('', [ProductSaleController::class, 'sale']);
     });
 
     Route::group(['prefix' => 'statistics'], function () {

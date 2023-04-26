@@ -4,10 +4,12 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\ProductPurchase;
+use App\Models\ProductSale;
 use App\Services\Contracts\StatisticsServiceInterface;
 use App\Traits\Crud;
 use Illuminate\Http\Request;
 use App\Models\Purchase;
+use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +19,7 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function interval_of_time($request)
     {
-        return Purchase::with(['product_purchases.product'])
+        return Sale::with(['product_sales.product'])
             ->whereBetween2('created_at', 'date')
             ->sort()
             ->customPaginate();
@@ -25,7 +27,7 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function common_products($request)
     {
-        $query = ProductPurchase::query();
+        $query = ProductSale::query();
 
         $results = $query->groupBy('product_id')
             ->select('product_id', DB::raw('SUM(count) as total_count'))
@@ -38,24 +40,24 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function product_stats($productId)
     {
-        $query = ProductPurchase::query();
+        $query = ProductSale::query();
         $query = $query->where('product_id', $productId);
         $query->whereBetween2('created_at','date');
 
-        $purchasesCount = $query->count();
+        $salesCount = $query->count();
 
         $totalPriceSum = $query->selectRaw('SUM(count * price) as total_price_sum')->first()->total_price_sum;
 
         return [
-            'purchases_count' => $purchasesCount,
+            'sales_count' => $salesCount,
             'total_price_sum' => $totalPriceSum,
         ];
     }
 
     public function by_user($userId = null)
     {
-        $query = Purchase::query();
-        $query->selectRaw('user_id, COUNT(*) as purchase_count');
+        $query = Sale::query();
+        $query->selectRaw('user_id, COUNT(*) as sale_count');
         $query->whereBetween2('created_at','date');
         
         if ($userId) {
@@ -70,9 +72,9 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function category($categoryId = null)
     {
-        $query = ProductPurchase::query();
-        $query->join('products', 'product_purchase.product_id', '=', 'products.id');
-        $query->select('products.category_id', 'categories.name', DB::raw('COUNT(*) as purchase_count'));
+        $query = ProductSale::query();
+        $query->join('products', 'product_sale.product_id', '=', 'products.id');
+        $query->select('products.category_id', 'categories.name', DB::raw('COUNT(*) as sale_count'));
         $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
         $query->whereBetween2('created_at','date');
 
@@ -88,7 +90,7 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function extended_products($request, $productId)
     {
-        $query = ProductPurchase::with(['purchase'])
+        $query = ProductSale::with(['sale'])
             ->whereBetween2('created_at', 'date')
             ->sort();
 
@@ -101,7 +103,7 @@ class StatisticsService implements StatisticsServiceInterface
 
     public function extended_users($request, $userId = null)
     {
-        $query = User::with(['purchases'])
+        $query = User::with(['sales'])
             ->whereBetween2('created_at', 'date')
             ->sort();
 
@@ -117,7 +119,7 @@ class StatisticsService implements StatisticsServiceInterface
         $query = Category::withCount(['products' => function($query) use($request){
             $query->whereIn('id', function($query) use($request){
                 $query->select('product_id')
-                    ->from('product_purchase')
+                    ->from('product_sale')
                     ->whereBetween('created_at', [$request->start_date, $request->end_date]);
             });
         }]);
@@ -128,7 +130,7 @@ class StatisticsService implements StatisticsServiceInterface
 
         // Determine the order to sort by
         $sortOrder = $request->sort_order === 'asc' ? 'asc' : 'desc';
-        $sortBy = $request->sort_by === 'purchase_count' ? 'products_count' : 'name';
+        $sortBy = $request->sort_by === 'sale_count' ? 'products_count' : 'name';
 
         // Sort the results by the specified column and order
         $query->orderBy($sortBy, $sortOrder);

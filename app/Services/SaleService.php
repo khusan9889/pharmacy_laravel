@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Models\Purchase;
-use App\Services\Contracts\PurchaseServiceInterface;
+use App\Models\Sale;
+use App\Services\Contracts\SaleServiceInterface;
 use App\Traits\Crud;
 
-class PurchaseService implements PurchaseServiceInterface
+class SaleService implements SaleServiceInterface
 {
     use Crud;
 
-    public $modelClass = Purchase::class;
+    public $modelClass = Sale::class;
 
     public function filter()
     {

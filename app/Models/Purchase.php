@@ -13,29 +13,24 @@ class Purchase extends Model
     use HasFactory, Scopes;
 
     public $fillable = [
-        'vendor_id',
         'total_price',
+        'received_date',
+        'vendor_id',
         'user_id',
     ];
 
-    public function paymentDetail()
-    {
-        return $this->belongsTo(PaymentDetail::class);
-    }
-
-    public function products(){
-        return $this->belongsToMany(Product::class, ProductPurchase::class)->withTimestamps();
-    }
-
-    public function product_purchases(): HasMany
+    public function product_purchase(): HasMany
     {
         return $this->hasMany(ProductPurchase::class);
     }
 
-    public function purchases(): BelongsTo
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 }
-
-

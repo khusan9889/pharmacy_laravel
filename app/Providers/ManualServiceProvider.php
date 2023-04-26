@@ -13,8 +13,8 @@ use App\Services\Contracts\StatisticsServiceInterface;
 use App\Services\Contracts\UserServiceInterface;
 use App\Services\DashboardService;
 use App\Services\ProductService;
-use App\Services\ProductPurchaseService;
-use App\Services\PurchaseService;
+use App\Services\ProductSaleService;
+use App\Services\SaleService;
 use App\Services\ReferenceService;
 use App\Services\StatisticsService;
 use App\Services\UserService;
@@ -34,8 +34,8 @@ class ManualServiceProvider extends ServiceProvider
         $this->app->singleton(ReferenceServiceInterface::class, ReferenceService::class);
         $this->app->singleton(CategoryServiceInterface::class, CategoryService::class);
         $this->app->singleton(UserServiceInterface::class, UserService::class);
-        $this->app->singleton(PurchaseServiceInterface::class, PurchaseService::class);
-        $this->app->singleton(ProductPurchaseServiceInterface::class, ProductPurchaseService::class);
+        $this->app->singleton(SaleServiceInterface::class, SaleService::class);
+        $this->app->singleton(ProductSaleServiceInterface::class, ProductSaleService::class);
         $this->app->singleton(StatisticsServiceInterface::class, StatisticsService::class);
         $this->app->singleton(DashboardServiceInterface::class, DashboardService::class);
     }

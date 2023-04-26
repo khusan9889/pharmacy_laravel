@@ -48,7 +48,7 @@ class Product extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function products_purchase(): HasMany
+    public function products_sale(): HasMany
     {
         return $this->hasMany(ProductPurchase::class);
     }

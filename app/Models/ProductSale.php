@@ -7,24 +7,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProductPurchase extends Model
+class ProductSale extends Model
 {
     use HasFactory, Scopes;
 
+    public $table = 'product_sale';
+
     public $fillable = [
         'product_id',
-        'purchase_id',
-        'price',
+        'sale_id',
         'count',
+        'price',
+        'paid_price'
     ];
 
-    public function purchase(): BelongsTo
-    {
-        return $this->belongsTo(Purchase::class);
-    }
-
-    public function product(): BelongsTo 
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function sale(): BelongsTo
+    {
+        return $this->belongsTo(Sale::class);
     }
 }

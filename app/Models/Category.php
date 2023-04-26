@@ -24,7 +24,7 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function product_purchase(): HasManyThrough
+    public function product_sale(): HasManyThrough
     {
         return $this->hasManyThrough(ProductPurchase::class, Product::class);
     }

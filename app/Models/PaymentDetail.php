@@ -11,11 +11,11 @@ class PaymentDetail extends Model
 
     public $fillable = [
         'payment_method',
-        'purchase_id',
+        'sale_id',
 
     ];
 
-    public function purchase()
+    public function sale()
     {
         return $this->hasOne(Purchase::class);
     }

@@ -3,16 +3,16 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Models\ProductPurchase;
-use App\Models\Purchase;
-use App\Services\Contracts\ProductPurchaseServiceInterface;
+use App\Models\ProductSale;
+use App\Models\Sale;
+use App\Services\Contracts\ProductSaleServiceInterface;
 use App\Traits\Crud;
 
-class ProductPurchaseService implements ProductPurchaseServiceInterface
+class ProductSaleService implements ProductSaleServiceInterface
 {
     use Crud;
 
-    public $modelClass = ProductPurchase::class;
+    public $modelClass = ProductSale::class;
 
     public function filter()
     {
@@ -37,7 +37,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
         // Initialize an array to hold the formatted product quantities
         $formattedProductQuantities = [];
 
-        // Initialize a variable to hold the total price of the purchase
+        // Initialize a variable to hold the total price of the sale
         $totalPrice = 0;
 
         // Loop through each product and format the quantity data
@@ -47,7 +47,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
 
             $product = Product::findOrFail($productId);
 
-            //check if amount of products is bigger than we want to purchase
+            //check if amount of products is bigger than we want to sale
             if ($product->count < $quantity) {
                 throw new \Exception('Not enough amount of products: ' . $product->name);
             }
@@ -70,17 +70,17 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
             $totalPrice += $product->price * $quantity;
         }
 
-        // Create the product purchase
-        $purchase = new Purchase();
+        // Create the product sale
+        $sale = new Sale();
 
-        $purchase->total_price = $totalPrice; // set the total price of the purchase
-        $purchase->user_id = auth()->user()->id; // set the user ID of the purchase
+        $sale->total_price = $totalPrice; // set the total price of the sale
+        $sale->user_id = auth()->user()->id; // set the user ID of the sale
         
-        $purchase->save();
+        $sale->save();
 
-        // Attach the products to the product purchase
+        // Attach the products to the product sale
         foreach ($formattedProductQuantities as $formattedProductQuantity) {
-            $purchase->products()->attach([
+            $sale->products()->attach([
                 $formattedProductQuantity['product_id'] => [
                     'count' => $formattedProductQuantity['count'],
                     'price' => $formattedProductQuantity['price'],
@@ -88,7 +88,7 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
             ]);
         }
 
-        return $purchase;
+        return $sale;
     }
 
     public function customUpdate($id, $request)
