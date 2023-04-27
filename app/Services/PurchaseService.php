@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Models\Example;
-use App\Services\Contracts\ExampleServiceInterface;
+use App\Services\Contracts\PurchaseServiceInterface;
 use App\Traits\Crud;
 
-class ExampleService implements ExampleServiceInterface
+class PurchaseService implements PurchaseServiceInterface
 {
     use Crud;
 

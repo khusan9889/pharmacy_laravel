@@ -2,7 +2,7 @@
 
 namespace App\Services\Contracts;
 
-interface ExampleServiceInterface
+interface PurchaseServiceInterface
 {
     public function filter();
 
