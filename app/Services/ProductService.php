@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Traits\Crud;
+use Illuminate\Support\Facades\Auth;
 
 class ProductService implements ProductServiceInterface
 {
@@ -34,6 +36,14 @@ class ProductService implements ProductServiceInterface
         } else {
             // Otherwise, create a new product with the validated data
             $model =  $this->store($request);
+
+            // Create a new Purchase record
+            $purchase = new Purchase();
+            $purchase->received_date = now();
+            $purchase->total_price = $request->price * $request->count; // Assuming price is for one unit
+            $purchase->vendor_id = $request->vendor_id; // Assuming the vendor_id is available in the request
+            $purchase->user_id = Auth::user()->id; // Assuming the currently logged in user is the one who made the purchase
+            $purchase->save();
         }
 
         // Calculate and update the package_amount column
