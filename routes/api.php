@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductSaleController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReferenceController;
@@ -81,6 +82,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('' , [DashboardController::class, 'dashboard']);
         Route::get('timegraph', [DashboardController::class, 'dash_time']);
+    });
+
+    Route::group(['prefix' => 'purchase'], function () {
+        Route::get('', [PurchaseController::class, 'index']);
     });
 
 });

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Example;
+use App\Models\Purchase;
 use App\Services\Contracts\PurchaseServiceInterface;
 use App\Traits\Crud;
 
@@ -10,7 +11,7 @@ class PurchaseService implements PurchaseServiceInterface
 {
     use Crud;
 
-    public $modelClass = Example::class;
+    public $modelClass = Purchase::class;
 
     public function filter()
     {
