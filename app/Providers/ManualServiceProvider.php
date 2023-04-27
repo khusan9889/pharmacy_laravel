@@ -6,9 +6,11 @@ use App\Services\CategoryService;
 use App\Services\Contracts\CategoryServiceInterface;
 use App\Services\Contracts\DashboardServiceInterface;
 use App\Services\Contracts\ProductPurchaseServiceInterface;
+use App\Services\Contracts\ProductSaleServiceInterface;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Services\Contracts\PurchaseServiceInterface;
 use App\Services\Contracts\ReferenceServiceInterface;
+use App\Services\Contracts\SaleServiceInterface;
 use App\Services\Contracts\StatisticsServiceInterface;
 use App\Services\Contracts\UserServiceInterface;
 use App\Services\DashboardService;
@@ -50,4 +52,3 @@ class ManualServiceProvider extends ServiceProvider
         //
     }
 }
-

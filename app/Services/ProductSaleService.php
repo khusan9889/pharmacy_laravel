@@ -96,3 +96,5 @@ class ProductSaleService implements ProductSaleServiceInterface
         return $this->update($id, $request);
     }
 }
+
+

@@ -14,3 +14,4 @@ class ProductSaleController extends Controller
         return $this->success($service->customStore($request));
     }
 }
+

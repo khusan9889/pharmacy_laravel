@@ -10,3 +10,4 @@ interface ProductSaleServiceInterface
 
     public function customUpdate($id, $request);
 }
+

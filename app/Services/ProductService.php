@@ -24,6 +24,7 @@ class ProductService implements ProductServiceInterface
         // Check if a product with the same barcode and expired date already exists
         $model = Product::where('barcode', $request->barcode)
             ->where('expired_date', $request->expired_date)
+            ->where('price', $request->price)
             ->first();
 
         // If the product already exists, update the amount column
