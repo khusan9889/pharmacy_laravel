@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Services\Contracts\ProductServiceInterface;
 use App\Traits\Crud;
@@ -29,31 +30,40 @@ class ProductService implements ProductServiceInterface
             ->where('price', $request->price)
             ->first();
 
-        // If the product already exists, update the amount column
-        if ($model) {
-            $model->count += $request->count;
-            $model->save();
-        } else {
-            // Otherwise, create a new product with the validated data
-            $model =  $this->store($request);
-
-            // Create a new Purchase record
-            $purchase = new Purchase();
-            $purchase->received_date = now();
-            $purchase->total_price = $request->price * $request->count; // Assuming price is for one unit
-            $purchase->vendor_id = $request->vendor_id; // Assuming the vendor_id is available in the request
-            $purchase->user_id = Auth::user()->id; // Assuming the currently logged in user is the one who made the purchase
-            $purchase->save();
+        // Create a new Product record
+        if (!$model) {
+            $model = $this->store($request);
         }
 
-        // Calculate and update the package_amount column
-        if ($model->per_box != null && $model->per_box > 0) {
+        // Create a new Purchase record
+        $purchase = new Purchase();
+        $purchase->received_date = now();
+        $purchase->total_price = $request->price * $request->count; // Assuming price is for one unit
+        $purchase->vendor_id = $request->vendor_id; // Assuming the vendor_id is available in the request
+        $purchase->user_id = Auth::user()->id; // Assuming the currently logged in user is the one who made the purchase
+        $purchase->save();
+
+        // Create a new record in the Product_Purchases table
+        $product_purchase = new ProductPurchase();
+        $product_purchase->product_id = $model->id;
+        $product_purchase->purchase_id = $purchase->id;
+        $product_purchase->price = $request->price;
+        $product_purchase->count = $request->count;
+        $product_purchase->save();
+
+        // If the product already exists, update the amount column
+        if ($model->count != null && $model->per_box != null && $model->per_box > 0) {
+            $model->count += $request->count;
             $model->package_count = $model->count / $model->per_box;
+            $model->save();
+        } else {
+            $model->count = $request->count;
+            $model->package_count = null;
             $model->save();
         }
 
         return $model;
-    }
+    }   
 
     public function customUpdate($id, $request)
     {
