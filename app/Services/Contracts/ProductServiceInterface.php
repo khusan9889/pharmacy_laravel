@@ -10,11 +10,11 @@ interface ProductServiceInterface
 
     public function customStore($request);
 
-    public function customUpdate($id, $request);
+    // public function customUpdate($id, $request);
 
-    public function expired($request);
+    // public function expired($request);
 
-    public function expire($request);
+    // public function expire($request);
 
-    public function removeById($id);
+    // public function removeById($id);
 }

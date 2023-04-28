@@ -7,6 +7,7 @@ use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Services\Contracts\ProductPurchaseServiceInterface;
 use App\Traits\Crud;
+use Carbon\Carbon;
 
 class ProductPurchaseService implements ProductPurchaseServiceInterface
 {
@@ -26,7 +27,6 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
 
     public function customStore($request)
     {
-
         // Get the array of product IDs and amounts from the request
         $productQuantities = $request->get('products');
 
@@ -34,30 +34,17 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
             return null; // or handle the error in some other way
         }
 
-        // Initialize an array to hold the formatted product quantities
-        $formattedProductQuantities = [];
-
         // Initialize a variable to hold the total price of the purchase
         $totalPrice = 0;
 
-        // Loop through each product and format the quantity data
+        // Loop through each product and update the count
         foreach ($productQuantities as $productQuantity) {
             $productId = $productQuantity['product_id'];
             $quantity = $productQuantity['count'];
 
             $product = Product::findOrFail($productId);
-
-            //check if amount of products is bigger than we want to purchase
-            // if ($product->count < $quantity) {
-            //     throw new \Exception('Not enough amount of products: ' . $product->name);
-            // }
-
-            // $formattedProductQuantities[] = [
-            //     'product_id' => $productId,
-            //     'count' => $quantity,
-            //     'price' => $product->price,
-            // ];
-
+            
+            // increase product's amount
             $product->count += $quantity;
 
             // Calculate the package amount if the product comes in a package
@@ -74,18 +61,25 @@ class ProductPurchaseService implements ProductPurchaseServiceInterface
         $purchase = new Purchase();
 
         $purchase->total_price = $totalPrice; // set the total price of the purchase
+        $purchase->received_date = Carbon::now(); // set the received date of the purchase
         $purchase->user_id = auth()->user()->id; // set the user ID of the purchase
-        
-        $purchase->save();
+        $purchase->vendor_id = auth()->user()->vendor_id; // set the vendor ID of the purchase
 
+        $purchase->save();
         // Attach the products to the product purchase
-        foreach ($formattedProductQuantities as $formattedProductQuantity) {
-            $purchase->products()->attach([
-                $formattedProductQuantity['product_id'] => [
-                    'count' => $formattedProductQuantity['count'],
-                    'price' => $formattedProductQuantity['price'],
-                ],
+        foreach ($productQuantities as $productQuantity) {
+            $productId = $productQuantity['product_id'];
+            $quantity = $productQuantity['count'];
+
+            $product = Product::findOrFail($productId);
+
+            $productPurchase = new ProductPurchase([
+                'count' => $quantity,
+                'price' => $product->price,
+                'product_id' => $productId // add product_id to the new ProductPurchase object
             ]);
+
+            $purchase->product_purchase()->save($productPurchase);
         }
 
         return $purchase;

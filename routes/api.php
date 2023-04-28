@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductPurchaseController;
 use App\Http\Controllers\ProductSaleController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
@@ -86,6 +87,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'purchase'], function () {
         Route::get('', [PurchaseController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'product-purchase'], function () {
+        Route::post('', [ProductPurchaseController::class, 'purchase']);
     });
 
 });
