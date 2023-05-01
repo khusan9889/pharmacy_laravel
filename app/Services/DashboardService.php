@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductPurchase;
+use App\Models\ProductSale;
 use App\Services\Contracts\DashboardServiceInterface;
 use App\Traits\Crud;
 use App\Models\Purchase;
@@ -59,6 +61,23 @@ class DashboardService implements DashboardServiceInterface
         }
 
         return $result;
+    }
+
+    public function today_sell($request)
+    {
+        $today = date('Y-m-d');
+
+        $totalSoldAmount = ProductSale::whereDate('created_at', $today)->sum('count');
+        $totalSoldPrice = Sale::whereDate('created_at', $today)->sum('total_price');
+        $totalReceivedProducts = ProductPurchase::whereHas('purchase', function ($query) use ($today) {
+            $query->whereDate('created_at', $today);
+        })->sum('count');
+
+        return [
+            'sold_amount' => $totalSoldAmount,
+            'sold_price' => $totalSoldPrice,
+            'received_products' => $totalReceivedProducts,
+        ];
     }
 
 }
