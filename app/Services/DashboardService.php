@@ -80,4 +80,19 @@ class DashboardService implements DashboardServiceInterface
         ];
     }
 
+    public function today_purchase($request)
+    {
+        $today = date('Y-m-d');
+
+        $totalPurchaseAmount = ProductPurchase::whereDate('created_at', $today)->sum('count');
+        $totalPaidAmount = Purchase::whereDate('created_at', $today)->sum('total_price');
+        $todayPurchaseCount = Purchase::whereDate('created_at', $today)->count();
+
+        return [
+            'today_purchase' => $todayPurchaseCount,
+            'purchase_amount' => $totalPurchaseAmount,
+            'paid_amount' => $totalPaidAmount,
+            'purchase_date' => $today
+        ];
+    }
 }

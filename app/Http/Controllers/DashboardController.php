@@ -28,4 +28,10 @@ class DashboardController extends Controller
         return $this->success($data);
     }
 
+    public function today_purchase(Request $request, DashboardServiceInterface $service)
+    {
+        $data = $service->today_purchase($request);
+        return $this->success($data);
+    }
+
 }

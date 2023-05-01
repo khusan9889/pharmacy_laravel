@@ -9,4 +9,6 @@ interface DashboardServiceInterface
     public function dash_time($request);
 
     public function today_sell($request);
+
+    public function today_purchase($request);
 }
