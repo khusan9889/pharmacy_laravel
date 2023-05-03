@@ -11,4 +11,6 @@ interface DashboardServiceInterface
     public function today_sell($request);
 
     public function today_purchase($request);
+
+    public function stock_out($request);
 }

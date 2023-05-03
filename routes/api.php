@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('timegraph', [DashboardController::class, 'dash_time']);
         Route::get('today_sell', [DashboardController::class, 'today_sell']);
         Route::get('today_purchase', [DashboardController::class, 'today_purchase']);
+        Route::get('stock_out', [DashboardController::class, 'stock_products']);
     });
 
     Route::group(['prefix' => 'purchase'], function () {

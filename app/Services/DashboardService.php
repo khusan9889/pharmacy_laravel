@@ -95,4 +95,10 @@ class DashboardService implements DashboardServiceInterface
             'purchase_date' => $today
         ];
     }
+
+    public function stock_out($request)
+    {
+        $products = Product::where('count', '<', 20)->get();
+        return $products;
+    }
 }
