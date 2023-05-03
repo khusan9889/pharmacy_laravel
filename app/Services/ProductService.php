@@ -72,6 +72,8 @@ class ProductService implements ProductServiceInterface
             ->first();
 
         if ($model) {
+            $model->package_count = (int) ($request->count / $request->per_box);
+            $model->save(); // save changes to the database
             return $this->update($id, $request);
         } else {
             return ['message' => 'Product not found'];
